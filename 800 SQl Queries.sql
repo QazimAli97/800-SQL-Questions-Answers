@@ -369,3 +369,83 @@ select rtrim(FirstName)as [First Name] from EmployeeDetail
 --35
 select ltrim(FirstName)[First Name] from EmployeeDetail
 
+--36) Display FirstName and Gender as M/F (if Gender = Male ? M, Female ? F).
+select FirstName, 
+				case
+					when Gender = 'Male' then 'M'
+					when gender = 'Female' then 'F'
+				end as Gender
+from employeedetail
+
+--37) Select FirstName from EmployeeDetail table prefixed with "Hello ".
+select concat('Hello', ' ' ,FirstName)[Firstname] from EmployeeDetail
+
+
+--38) Get employee details whose Salary is greater than 600000.
+select * from EmployeeDetail
+where Salary > 600000
+
+--39) Get employee details whose Salary is less than 700000.
+select * from EmployeeDetail
+where salary < 700000
+
+--40) Get employee details whose Salary is between 500000 and 600000.
+select * from EmployeeDetail
+where Salary between 500000 and 600000
+
+--41) Select the second highest salary from EmployeeDetail table.
+select max(salary) from EmployeeDetail
+where Salary < (select max(salary) from EmployeeDetail)
+
+SELECT TOP 1 salary from 
+(select top 2 salary from EmployeeDetail order by salary desc)t 
+order by Salary asc
+
+--42)Write a query to get the Department and department-wise total (SUM) Salary from EmployeeDetail table.
+select Department, sum(salary)[Department Wise Total Salary]
+from EmployeeDetail
+group by Department
+
+--43) Write a query to get the Department and department-wise total Salary, and display the result in ascending order of Salary.
+select Department, sum(salary)[Department Wise Total Salary]  from EmployeeDetail
+group by Department
+order by  [Department Wise Total Salary]
+
+--44) Write a query to get the Department and department-wise total Salary, and display the result in descending order of Salary.
+select Department, sum(salary)[Department Wise Total Salary]  from EmployeeDetail
+group by Department
+order by [Department Wise Total Salary] desc
+
+--45)Write a query to get the Department, total number of employees, and department-wise total Salary from EmployeeDetail table.
+select Department,count(EmployeeID)[Total No. of Employees],
+sum(salary)[Department Wise Total Salary] from EmployeeDetail
+group by Department
+
+--46)Get department-wise average Salary from EmployeeDetail table and order the result by Salary (ascending).
+select Department, avg(Salary)[Department Wise Avg Salary]  
+from EmployeeDetail
+group by Department
+order by [Department Wise Avg Salary]
+
+--47)Get department-wise maximum Salary from EmployeeDetail table and order the result by Salary (ascending).
+select Department, max(salary)[Department Wise Max Salary]  
+from EmployeeDetail
+group by Department
+order by [Department Wise Max Salary] 
+
+--48) Get department-wise minimum Salary from EmployeeDetail table and order the result by Salary (ascending).
+select Department, min(salary)[Department Wise Min Salary] 
+from EmployeeDetail
+group by Department
+order by [Department Wise Min Salary] 
+
+--49)Write a query to fetch ProjectName that is assigned to more than one employee.
+--(Use HAVING clause)?
+
+create table ProjectDetail(
+projectid int identity(1,1) primary key,
+projectname varchar(50),
+employeeDetail int);
+
+
+
