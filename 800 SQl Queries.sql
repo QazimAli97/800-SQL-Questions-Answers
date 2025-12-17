@@ -1,11 +1,5 @@
 
 
-use practice
-
-select * from customer
-
-select * from Departments
-
 --1
 
 select sales.PRODUCT_id, sales.CustomerID, quantity, totalamount from product
