@@ -1,221 +1,5 @@
 
 
---1
-
-select sales.PRODUCT_id, sales.CustomerID, quantity, totalamount from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-
---2
-select concat(firstname, ' ',lastname)[Customer_name],quantity  from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-where quantity > 5
-
-
---3
-select concat(firstname, ' ',lastname)[Customer_name],PRODUCT.PRODUCT_id,PRODUCTname from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-where PRODUCT.PRODUCT_id =  10
-
---4
-select PRODUCT.PRODUCT_id,PRODUCTname, totalamount from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-where totalamount > 1000
-
---6
-select PRODUCTname,Quantity, totalamount from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-
---7
-select concat(firstname, ' ', lastname)[Customer_name],PRODUCTname from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-
---8
-select PRODUCTname, Totalamount from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-
---9
-select concat(firstname, ' ', lastname)[Customername],PRODUCTname, count(salesid) from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-group by concat(firstname, ' ', lastname),PRODUCTname
-
---10
-select concat(firstname, ' ', lastname)[Customername],PRODUCTname, Quantity, Totalamount[Netamount] from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-
---11
-select top 5 PRODUCTname, Totalamount[Netamount] from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-order by Totalamount desc
-
-
---12
-select concat(firstname, ' ', lastname)[Customername], sum(Totalamount) from sales
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-group by concat(firstname, ' ', lastname)
-order by sum(Totalamount) desc
-
-
---13
-select Category, AVG(totalamount)[Avg Selling Price] from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-group by Category
-order by AVG(totalamount) desc
-
---14
-select ProductName, sum(TotalAmount)[Net Sale Amount], ROW_NUMBER() over(order by sum(TotalAmount) desc)[Rank]
-from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-group by ProductName
-
---15
-select customer.CustomerID,concat(firstname, ' ', lastname)[Customername], totalamount,
-sum(totalamount) over(partition by customer.customerid order by totalamount)[Running Total]
-from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-
---1 
-select ProductName, sum(quantity)[Total Quantity] from Product p
-right join sales s 
-on p.product_id = s.Product_ID
-group by ProductName
-
-
---2
-select top 3 concat(firstname, ' ', LastName)[Customer name], sum(totalamount)[Total Amount]
-from Customer c
-left join Sales s
-on c.CustomerID = s.CustomerID
-group by concat(firstname, ' ', LastName)
-order by sum(totalamount) desc;
-
-
-with cte as (select  concat(firstname, ' ', LastName)[Customer name],
-sum(totalamount)[Total Amount],
-RANK() over (order by sum(totalamount) desc)[Top 3] 
-from Customer c
-left join Sales s
-on c.CustomerID = s.CustomerID
-group by concat(firstname, ' ', LastName))
-select * from cte
-where [Top 3] < 4
-
-
---3
-select ProductName,sum(quantity)[Total Quantity order] from Product p
-inner join sales s
-on p.product_id = s.Product_ID
-where quantity >= 50
-group by ProductName
- 
---4
-select   concat(firstname, ' ', LastName)[Customer Name],
-count(distinct sales.product_id)[No. of Distinct Product Purchase]
-from product
-inner join  Sales
-on PRODUCT.product_id = Sales.product_id
-inner join Customer 
-on sales.CustomerID = Customer.customerId
-group by concat(firstname, ' ', LastName)
-order by concat(firstname, ' ', LastName) 
-   
-
-
---5
-	with cte as(
-	select CONCAT(Firstname,' ', LastName)[Customer Name],ProductName,totalamount,
-	rank() over(partition by CONCAT(Firstname,' ', LastName) order by totalamount desc)[Rank]
-	from Customer c
-	inner join sales s
-	on c.CustomerID = s.CustomerID
-	inner join Product p
-	on s.Product_ID = p.product_id
-	)
-	select * from cte
-	where Rank = 1;
-
-	
-	--Subquery
-	select CONCAT(Firstname,' ', LastName)[Customer Name],ProductName, TotalAmount
-	from Customer c
-	inner join sales s
-	on c.CustomerID = s.CustomerID
-	inner join Product p
-	on s.Product_ID = p.product_id
-	where TotalAmount = (select max(s2.totalamount) from Sales s2 where s2.CustomerID = c.CustomerID)
-	order by CONCAT(Firstname,' ', LastName)
-	
-
-	--6
-	select CONCAT(Firstname,' ', LastName)[Customer Name], Quantity, SalesID
-	from Customer c
-	right join Sales s
-	on c.CustomerID = s.CustomerID
-	where Quantity > 5
-	order by CONCAT(Firstname,' ', LastName)
-
-	--7
-	select Category, sum(totalamount)[NetAmount] from Product p
-	inner join Sales s
-	on p.product_id = s.Product_ID
-	group by Category
-
-	--8
-	select ProductName, totalamount, cast(Round((totalamount * 100.0)/
-	sum(TotalAmount) over (partition by p.product_id),2)as decimal(10,2))[Percentage contribution]
-	from Product p
-	inner join Sales s
-	on p.product_id = s.Product_ID
-
-	--9
-	Select CONCAT(Firstname,' ', LastName)[Customer Name], sum(TotalAmount)[Avg Spending]
-	from Customer c
-	inner join sales s
-	on c.CustomerID = s.CustomerID
-	group by CONCAT(Firstname,' ', LastName)
-	having sum(TotalAmount) > (select AVG(totalamount) from Sales)
-	--where TotalAmount > (select AVG(totalamount) from Sales)
-
---10
-select CONCAT(Firstname,' ', LastName)[Customer Name],
-sum(TotalAmount)[Total Amount],
-RANK() over (order by sum(TotalAmount) desc) [Rank]
-from Customer c
-right join sales s
-on c.CustomerID = s.CustomerID
-group by CONCAT(Firstname,' ', LastName) 
-
 create database [800 SQL Questions & Answers]
 
 use [800 SQL Questions & Answers]
@@ -433,13 +217,82 @@ from EmployeeDetail
 group by Department
 order by [Department Wise Min Salary] 
 
+
 --49)Write a query to fetch ProjectName that is assigned to more than one employee.
 --(Use HAVING clause)?
+select projectname, COUNT(employeeDetail)[No. of Emp] from ProjectDetail
+group by projectname
+having COUNT(employeeDetail) > 1
 
-create table ProjectDetail(
-projectid int identity(1,1) primary key,
-projectname varchar(50),
-employeeDetail int);
+--51) Get employee FirstName and ProjectName, ordered by FirstName, from EmployeeDetail and ProjectDetail tables for employees who have been assigned a project.
 
+select FirstName, projectname from EmployeeDetail e
+inner join ProjectDetail p
+on e.EmployeeID = p.employeeDetail
+order by FirstName 
 
+--52) Get employee FirstName and ProjectName, ordered by FirstName,
+--from EmployeeDetail and ProjectDetail tables for all employees, even if no project is assigned.
 
+select FirstName,projectname from EmployeeDetail e
+left outer join ProjectDetail p
+on e.EmployeeID = p.employeeDetail
+order by FirstName
+
+ 
+--53) Get employee FirstName and ProjectName, ordered by FirstName, 
+--from EmployeeDetail and ProjectDetail tables for all employees; 
+--if a project is not assigned, display “-No Project Assigned”.
+
+select FirstName,ISNULL(Projectname, '-No Project Assigned')[Project Name]
+from EmployeeDetail e
+left join ProjectDetail p 
+on e.EmployeeID = p.employeeDetail
+order by FirstName
+
+--54) Get all ProjectNames, even if they do not match any employee, 
+--ordered by FirstName, from EmployeeDetail and ProjectDetail tables.
+
+select projectname,FirstName from EmployeeDetail e
+right join ProjectDetail p
+on e.EmployeeID = p.employeeDetail
+order by FirstName
+
+--55) Get complete records (EmployeeName, ProjectName)
+--from EmployeeDetail and ProjectDetail; if no match is found in either table, show NULL.
+
+select FirstName,LastName, projectname from EmployeeDetail e
+full outer join ProjectDetail p
+on e.EmployeeID = p.employeeDetail
+
+--56) Write a query to find employees who have not been assigned any project, and display “-No Project Assigned”.
+select FirstName,ISNULL(projectname, '-No Project Assigned')[Project Name]
+from EmployeeDetail e
+left join ProjectDetail p
+on e.EmployeeID = p.employeeDetail
+where projectname is null
+
+--57) Write a query to find projects that are not assigned to any employee.
+select projectname,FirstName
+from ProjectDetail p
+left join EmployeeDetail e
+on p.employeeDetail = e.EmployeeID
+where EmployeeID is null
+
+--58) Write a query to fetch EmployeeName and ProjectName where an employee has been assigned more than one project.
+
+select FirstName,projectname
+from EmployeeDetail e
+inner join ProjectDetail p
+on e.EmployeeID = p.employeeDetail
+where EmployeeID in (select employeeDetail from ProjectDetail 
+					group by employeeDetail having count(*) > 1)
+
+--59) Write a query to fetch ProjectName on which more than one employee is working, along with EmployeeName.
+select projectname, FirstName
+from ProjectDetail p
+left join EmployeeDetail e
+on p.employeeDetail = e.EmployeeID
+where projectname in (select projectname from  ProjectDetail
+group by projectname
+having count(*) > 1 )
