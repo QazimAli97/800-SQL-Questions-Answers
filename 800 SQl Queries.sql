@@ -22,129 +22,129 @@ values
 ('Nikhil', 'Kadam', 600000, '2014-05-31 09:37:27.090', 'Payroll', 'Male'),
 ('anish', 'Sharma', 480000, '2014-09-17 11:58:23.790', 'IT', 'Male');
 --1
+--1 Write a query to get all employee details from EmployeeDetail table.
 select * from EmployeeDetail
 
---2
+--2 Write a query to get only FirstName column from EmployeeDetail table.
 select FirstName from EmployeeDetail
 
---3
+--3 Write a query to get FirstName in upper case as First Name.
 select upper(FirstName) as [First Name ]from EmployeeDetail
 
---4
+--4 Write a query to get FirstName in lower case as First Name.
 select lower(FirstName) from EmployeeDetail
 
---5
+--5 Write a query to combine FirstName and LastName and display it as Name (with space).
 select CONCAT(firstname, ' ', lastname)[Name] from EmployeeDetail
 
---6
+--6 Select employee detail whose name is "Vikas".
 select * from EmployeeDetail
 where FirstName = 'Vikas'
 
---7
+--7 Get all employee details whose FirstName starts with 'a'.
 select * from EmployeeDetail
 where FirstName like 'a%'
 
---8
+--8 Get all employee details whose FirstName contains 'k'.
 select * from EmployeeDetail
 where FirstName like '%K%'
 
---9
+--9 Get all employee details whose FirstName ends with 'h'.
 select * from EmployeeDetail
 where FirstName like '%h'
 
---10
+--10 Get all employee details whose FirstName starts with any letter between 'a‚Äìp'.
 select * from EmployeeDetail
 where FirstName like '[a-p]%'
 
---11
+--11 Get all employee details from EmployeeDetail table whose FirstName does not start with any single character between 'a'‚Äì'p'.
 select * from EmployeeDetail
 where FirstName not like '[a-p]%'
 
---12
+--12 Get all employee details from EmployeeDetail table whose Gender ends with "le" and contains 4 letters. (Underscore _ represents any single character.)
 select * from EmployeeDetail
 where Gender like '__le'
 
---13
+--13 Get all employee details from EmployeeDetail table whose FirstName starts with 'A' and contains 5 letters.
 select * from EmployeeDetail
-where FirstName like 'a____'
+where FirstName like 'A____'
 
---14
+--14 Get all employee details from EmployeeDetail table whose FirstName contains the character '%'. Example: "Vik%as"
 select * from EmployeeDetail
 where FirstName like '%[%]%'
 
---15
+--15 Get all unique Department values from EmployeeDetail table.
 select Distinct Department from EmployeeDetail
 
---16
+--16 Get the highest Salary from EmployeeDetail table.
 select max(Salary)[Max Salary] from EmployeeDetail
 
---17
+--17 Get the lowest Salary from EmployeeDetail table.
 select min(Salary)[Min Salary]  from EmployeeDetail
 
---18
+--18 Show JoiningDate in "dd mmm yyyy" format Example: 15 Feb 2013.
 select convert(varchar(20),JoiningDate,106)[Joining Date] from EmployeeDetail
 
---19
+--19 Show JoiningDate in "yyyy/mm/dd" format Example: 2013/02/15
 select convert(varchar(20),JoiningDate,111)[Joining Date] from EmployeeDetail
 
---20
+--20 Show only the time part of JoiningDate.
 select convert(time, JoiningDate)[Time of Joining] from EmployeeDetail
 
 select convert(varchar(10), JoiningDate,108)[Joining Time] from EmployeeDetail
 
 
---21
+--21 Get only the Year part of JoiningDate.
 select year(JoiningDate)[Joining Year] from EmployeeDetail
 
---22
+--22 Get only the Month part of JoiningDate.
 select month(JoiningDate)[Joining Month] from EmployeeDetail
 
-
---23
+--23 Get the system date.
 select GETDATE()[System Date] from EmployeeDetail
 
---24
+--24 Get the UTC date.
 select GETUTCDATE()[UTC Date] 
 
---25
+--25 Get the FirstName, current date, JoiningDate, and the difference between current date and JoiningDate in months.
 select FirstName, GETDATE()[Current Date], JoiningDate,
 DATEDIFF(MONTH, JoiningDate, GETDATE())[Diff between Current Date & Joining Date in Months]
 from EmployeeDetail
 
---26
+--26 Get the FirstName, current date, JoiningDate, and the difference between current date and JoiningDate in days.
 select FirstName,GETDATE()[Current Date],JoiningDate, 
 DATEDIFF(day, JoiningDate, GETDATE())[Diff between Current Date & Joining Date in Days] from EmployeeDetail
 
---27
+--27 Get all employee details from EmployeeDetail where the joining year is 2013.
 select * from EmployeeDetail
 where year(JoiningDate) = 2013
 
---28
+--28 Get all employee details where the joining month is January (1).
 select * from EmployeeDetail
 where month(JoiningDate) = 01
 
---29
+--29 Get all employee details whose JoiningDate is between '2013-01-01' and '2013-12-01'.
 select * from EmployeeDetail
 where JoiningDate between '2013-01-01' and '2013-12-01'
 
---30
+--30 Get how many employees exist in the EmployeeDetail table.
 select count(*)[No. of Employees] from EmployeeDetail
 
---31
+--31 Select only one / top 1 record from EmployeeDetail table.
 select top 1 *  from EmployeeDetail
 
---32
+--32 Select all employee details whose FirstName is "Vikas", "Ashish", or "Nikhil".
 select * from EmployeeDetail
 where FirstName in ('Vikas','Ashish','Nikhil')
-
---33
+ 
+--33 Select all employee details whose FirstName is NOT "Vikas", "Ashish", or "Nikhil".
 select * from EmployeeDetail
 where  not FirstName in ('Vikas','Ashish','Nikhil')
 
---34
+--34 Select FirstName from EmployeeDetail table after removing white spaces from the right side.
 select rtrim(FirstName)as [First Name] from EmployeeDetail
 
---35
+--35 Select FirstName from EmployeeDetail table after removing white spaces from the left side.
 select ltrim(FirstName)[First Name] from EmployeeDetail
 
 --36) Display FirstName and Gender as M/F (if Gender = Male ? M, Female ? F).
@@ -242,7 +242,7 @@ order by FirstName
  
 --53) Get employee FirstName and ProjectName, ordered by FirstName, 
 --from EmployeeDetail and ProjectDetail tables for all employees; 
---if a project is not assigned, display ì-No Project Assignedî.
+--if a project is not assigned, display ‚Äú-No Project Assigned‚Äù.
 
 select FirstName,ISNULL(Projectname, '-No Project Assigned')[Project Name]
 from EmployeeDetail e
@@ -265,7 +265,7 @@ select FirstName,LastName, projectname from EmployeeDetail e
 full outer join ProjectDetail p
 on e.EmployeeID = p.employeeDetail
 
---56) Write a query to find employees who have not been assigned any project, and display ì-No Project Assignedî.
+--56) Write a query to find employees who have not been assigned any project, and display ‚Äú-No Project Assigned‚Äù.
 select FirstName,ISNULL(projectname, '-No Project Assigned')[Project Name]
 from EmployeeDetail e
 left join ProjectDetail p
