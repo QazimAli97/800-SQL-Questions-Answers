@@ -288,7 +288,8 @@ on e.EmployeeID = p.employeeDetail
 where EmployeeID in (select employeeDetail from ProjectDetail 
 					group by employeeDetail having count(*) > 1)
 
---59) Write a query to fetch ProjectName on which more than one employee is working, along with EmployeeName.
+--59) Write a query to fetch ProjectName on which more than one employee is working,
+--along with EmployeeName.
 select projectname, FirstName
 from ProjectDetail p
 left join EmployeeDetail e
@@ -296,3 +297,128 @@ on p.employeeDetail = e.EmployeeID
 where projectname in (select projectname from  ProjectDetail
 group by projectname
 having count(*) > 1 )
+
+
+create table TBL_1(ID int)
+
+insert into TBL_1 values (1),
+(1)
+
+select * from TBL_1
+
+create table TBL_2 (ID int)
+
+insert into TBL_2 values(1),(1),(1)
+
+select * from TBL_2
+
+create table Table_1 (ID int, Name VARCHAR(30))
+
+insert into Table_1  (ID, Name) values
+(1,'Vikas Ahlawat'),
+(2,'Sachin Aggarwal'),
+(3,'Manoj kumar')
+
+select * from Table_1
+
+create table Table_2 (ID int, Name varchar (30))
+
+insert into Table_2 (ID, Name) values
+(1,'Vikas Ahlawat'),
+(4,'Sanjay Kumar'),
+(5,'Sachin Aggarwal'),
+(3,'Sandeep Kumar')
+
+select * from Table_2
+
+--60) What would be the output of the following query? (INNER JOIN)
+select t1.ID,t2.ID from TBL_1 t1 
+inner join TBL_2 t2
+on t1.ID = t2.ID
+
+--61)What would be the output of the following query? (LEFT OUTER JOIN)
+
+select t1.ID,t2.ID from TBL_1 t1 
+left outer join TBL_2 t2
+on t1.ID = t2.ID
+
+--62) What would be the output of the following query? (LEFT OUTER JOIN – same join condition)
+select t1.id,t2.ID from TBL_1 t1
+left outer join TBL_2 t2
+on t1.ID = t2.ID
+
+--63) What would be the output of the following query? (RIGHT OUTER JOIN)
+select t1.ID,t2.ID from TBL_1 t1
+right outer join TBL_2 t2
+on t1.ID = t2.ID
+
+--64) What would be the output of the following query? (FULL OUTER JOIN)
+select t1.ID,t2.ID from TBL_1 t1
+full outer join TBL_2 t2
+on t1.ID = t2.ID
+
+--65)What would be the output of the following query? (FULL OUTER JOIN)
+select t1.ID,t2.ID
+from TBL_1 t1 
+cross join TBL_2 t2 
+
+--66) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(INNER JOIN on ID)
+select t1.id,t1.Name, t2.ID,t2.Name
+from Table_1 t1 
+inner join Table_2 t2
+on t1.ID = t2.ID
+
+--67) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(INNER JOIN on ID AND Name)
+select t1.ID,t1.Name,t2.ID,t2.Name
+from Table_1 t1
+inner join Table_2 t2
+on t1.ID = t2.ID
+and t1.Name = t2.Name
+
+--select * from Table_1
+--select * from Table_2
+
+--68) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(INNER JOIN with AND condition)
+select * from Table_1 t1
+inner join Table_2 t2
+on t1.ID = t2.ID
+and t1.Name = t2.Name
+
+--69) What would be the output of the following query?
+--Related tables: Table_1, Table_2)
+--(INNER JOIN with OR condition)
+select * from Table_1 t1
+inner join Table_2 t2
+on t1.ID = t2.ID
+or t1.Name = t2.Name
+
+--70) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(INNER JOIN with NOT EQUAL (!=))
+
+select * from Table_1 t1
+inner join Table_2 t2
+on t1.ID != t2.ID
+
+--71) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(INNER JOIN with NOT condition)
+select * from Table_1 t1
+inner join Table_2 t2
+on not(t1.ID = t2.ID)
+
+--72) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(INNER JOIN with IN)
+select * from Table_1 t1
+inner join Table_2 t2
+on t2.ID in(3)
+
+select * from Table_1
+select * from Table_2
