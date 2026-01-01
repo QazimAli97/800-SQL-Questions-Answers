@@ -422,3 +422,195 @@ on t2.ID in(3)
 
 select * from Table_1
 select * from Table_2
+
+
+--73) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(INNER JOIN with NOT)
+
+select * from Table_1 t1
+inner join Table_2 t2
+on not(t1.id = t2.id)
+
+
+--74) What would be the output of the following query?
+--(Related tables: Table_1, Table_2)
+--(LEFT OUTER JOIN)
+
+select * from Table_1 t1
+left outer join Table_2 t2
+on t1.ID = t2.ID
+
+
+--75) Write a query to fetch records from Table_1 that do not exist in Table_2
+--(based on ID column)
+
+select * from Table_1 t1
+left join Table_2 t2
+on  t1.ID = t2.ID
+where t2.ID is null
+
+--76) What would be the output of the following query?
+--Related tables: Table_1, Table_2)
+--(LEFT OUTER JOIN with != condition)
+
+select * from Table_1 t1 
+left join Table_2 t2
+on t1.ID != t2.ID
+
+--77) Write a query to fetch records from Table_2 that do not exist in Table_1
+--(based on ID column).
+
+select * from Table_1 t1
+right join Table_2 t2
+on t1.ID = t2.ID
+where t1.Name is null
+
+--78)Write a query to create an EmployeeDetail table with an IDENTITY column (EmployeeID).
+create table EmployeeDetail_1 (EmployeeId int identity(1,1) not null, 
+firstName varchar(50), LastName NVarchar(50),
+Salary decimal(10,2),
+JoiningDate datetime,
+Department Nvarchar(20),
+Gender varchar(10))
+
+--79) Write a query to create an EmployeeDetail table with an IDENTITY column (EmployeeID) and 
+--set it as a PRIMARY KEY.
+
+alter table EmployeeDetail_1
+add primary key(EmployeeId)
+
+--80) Write a query to create an EmployeeDetail table with EmployeeID as PRIMARY KEY.
+
+CREATE TABLE EmployeeDetail_2( [EmployeeID] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+ [FirstName] NVARCHAR(50) NULL,
+ [LastName] NVARCHAR(50) NULL, 
+ [Salary] DECIMAL(10, 2) NULL,
+ [JoiningDate] DATETIME NULL,
+[Department] NVARCHAR(20) NULL,
+[Gender] VARCHAR(10) NULL)
+
+--81) How do you set a PRIMARY KEY using the ALTER command?
+alter table employeeDetail_2
+add primary key([JoiningDate])
+
+--82) How do you create a PRIMARY KEY and FOREIGN KEY relationship using a query
+--(set EmployeeID column of ProjectDetail table as a FOREIGN KEY)?
+
+alter table projectDetail
+add constraint fk_projectDetail_EmployeeDetail_1
+foreign key (employeeDetail)
+references EmployeeDetail_1(employeeId)
+
+
+--83 What will be the output of the following query?
+select 15
+--15
+
+--84) What will be the output of the following query?
+select $
+--0.00
+
+--85) What will be the output of the following query?
+select count(*)
+--1
+
+--86) What will be the output of the following query?
+select count('7')
+--1
+
+--87) What will be the output of the following query?
+select 'Vikas' + 1
+--Error
+
+--88) What will be the output of the following query?
+select 'Vikas' + '1'
+--Vikas1
+
+--89) What will be the output of the following query?
+select (select 'Vikas')
+--Vikas
+
+--90) What will be the output of the following query?
+select select 'Vikas'
+--error
+
+--91) What will be the output of the following query?
+select * from 'Country'
+--error
+
+--92) What will be the output of the following query?
+select * from  country, EmployeeDetail
+--Output of cross join of both the table
+
+
+--93) What will be the output of the following query?
+select count(*) + COUNT(*)
+--2
+
+--94) What will be the output of the following query?
+select 'VIKAS' from country
+-- Display "VIKAS" as many rows in Country table
+
+--95) What will be the output of the following query?
+select sum(1+2*3)
+--7
+
+--96) What will be the output of the following query?
+select max(1 + 2 * 3)
+--7
+
+--97) What will be the output of the following query?
+select max(1, 3, 4)
+-- error
+
+--98) What will be the output of the following query?
+select max('VIKAS')
+--VIKAS
+
+--99)What will be the output of the following query?
+select count(select countryid from country)
+--error
+
+--100) What will be the output of the following query?
+select 1+ '1'
+--2
+
+--101) What will be the output of the following query?
+select '1' + 1
+--2
+
+--102) What will be the output of the following query?
+select null + 5
+--null
+
+--103) What will be the output of the following query?
+select null + '1'
+--null
+
+--104) What will be the output of the following query?
+select 2 where null = null
+--NOTHING WILL RETURN BY This (0 rows will be returned by this) because the condition is false
+
+--105) What will be the output of the following query?
+select sum(1)
+--1
+
+--106)What will be the output of the following query?
+select sum('1')
+--error
+
+--107) What will be the output of the following query?
+select sum(null)
+--null
+
+--108) What will be the output of the following query?
+select 6/0
+
+--109) What will be the output of the following query?
+select 0/0
+--null
+
+--110) What will be the output of the following query?
+select 0/9
+--0
